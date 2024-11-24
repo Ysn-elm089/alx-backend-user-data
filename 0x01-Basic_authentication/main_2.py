@@ -1,15 +1,14 @@
-#!/usr/bin/python3
-""" Check response
+#!/usr/bin/env python3
+""" Main 2
 """
-import requests
+from api.v1.auth.basic_auth import BasicAuth
 
-if __name__ == "__main__":
-    r = requests.get('http://0.0.0.0:3456/api/v1/unauthorized/')
-    if r.status_code != 401:
-        print("Wrong status code: {}".format(r.status_code))
-        exit(1)
-    if r.headers.get('content-type') != "application/json":
-        print("Wrong content type: {}".format(r.headers.get('content-type')))
-        exit(1)
-    
-    print("OK", end="")
+a = BasicAuth()
+
+print(a.extract_base64_authorization_header(None))
+print(a.extract_base64_authorization_header(89))
+print(a.extract_base64_authorization_header("Holberton School"))
+print(a.extract_base64_authorization_header("Basic Holberton"))
+print(a.extract_base64_authorization_header("Basic SG9sYmVydG9u"))
+print(a.extract_base64_authorization_header("Basic SG9sYmVydG9uIFNjaG9vbA=="))
+print(a.extract_base64_authorization_header("Basic1234"))
