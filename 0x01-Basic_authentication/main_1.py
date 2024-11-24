@@ -1,12 +1,14 @@
-#!/usr/bin/python3
-""" Check response
+#!/usr/bin/env python3
+""" Main 1
 """
-import requests
+from api.v1.auth.auth import Auth
 
-if __name__ == "__main__":
-    r = requests.get('http://0.0.0.0:3456/api/v1/unauthorized/')
-    if r.status_code != 401:
-        print("Wrong status code: {}".format(r.status_code))
-        exit(1)
-   
-    print("OK", end="")
+a = Auth()
+
+print(a.require_auth(None, None))
+print(a.require_auth(None, []))
+print(a.require_auth("/api/v1/status/", []))
+print(a.require_auth("/api/v1/status/", ["/api/v1/status/"]))
+print(a.require_auth("/api/v1/status", ["/api/v1/status/"]))
+print(a.require_auth("/api/v1/users", ["/api/v1/status/"]))
+print(a.require_auth("/api/v1/users", ["/api/v1/status/", "/api/v1/stats"]))
